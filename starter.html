@@ -23,13 +23,24 @@
     <!-- View 2: Add Book -->
      <div id="viewAdd" class="hidden">
       <h2>Add Book</h2>
+      <form id="bookForm">
+        <input type="text" id="title" placeholder="Title" required><br><br>
+        <input type="text" id="author" placeholder="Author" required><br><br>
+        <button type="submit">Add</button>
+      </form>
      </div>
 
 
 <script>
 // JSON data
 //javascript code
-
+const jsonString = `[
+  {"title":"1984","author":"George Orwell"},
+  {"title":"To Kill a Mockingbird","author":"Harper Lee"},
+  {"title":"The Great Gatsby","author":"F. Scott Fitzgerald"},
+  {"title":"Pride and Prejudice","author":"Jane Austen"},
+  {"title":"The Hobbit","author":"J.R.R. Tolkien"}
+]`;
 </script>
 
 </body>
