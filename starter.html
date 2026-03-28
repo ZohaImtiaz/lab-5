@@ -1,47 +1,113 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Favorite Books SPA</title>
+  <title>Favorite Books</title>
   <style>
     /* CSS code can be written here */
+    
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
-<h1>Favorite Books</h1>
-
-<!--Write html code here- no php for this tutorial-->
-
-   <!-- Navigation buttons -->
-   <!-- View 1: Book List -->
-    <div class="nav">
-      <button id="list">Book List</button>
-      <button id="add">Add Book</button>
-    </div>
+  <h1>Favorite Books</h1>
 
 
-    <!-- View 2: Add Book -->
-     <div id="viewAdd" class="hidden">
-      <h2>Add Book</h2>
-      <form id="bookForm">
-        <input type="text" id="title" placeholder="Title" required><br><br>
-        <input type="text" id="author" placeholder="Author" required><br><br>
-        <button type="submit">Add</button>
-      </form>
-     </div>
+  <!--Write html code here- no php for this tutorial-->
+
+  <!-- Navigation buttons --> 
+  <!-- View 1: Book List -->
+  <div class="nav">
+    <button id="list">Book List</button>
+    <button id="add">Add Book</button>
+  </div>
+
+  <!-- View 1: Book List --> 
+  <div id="viewList">
+    <h2>Book List</h2>
+    <ul id="bookList"></ul>
+  </div>
 
 
-<script>
-// JSON data
-//javascript code
-const jsonString = `[
+  <!-- View 2: Add Book -->
+  <div id="viewAdd" class="hidden">
+    <h2>Add a New Book</h2>
+    <form id="bookForm">
+      <label for="title">Title:</label>
+      <input type="text" id="title" placeholder="Enter book title"><br><br>
+      <label for="author">Author:</label>
+      <input type="text" id="author" placeholder="Enter author name"><br><br>   
+      <button type="submit">Add</button>
+    </form>  
+  </div>
+  
+  <script>
+  // JSON data
+  //javascript code
+  const jsonString = `[  
   {"title":"1984","author":"George Orwell"},
   {"title":"To Kill a Mockingbird","author":"Harper Lee"},
   {"title":"The Great Gatsby","author":"F. Scott Fitzgerald"},
   {"title":"Pride and Prejudice","author":"Jane Austen"},
   {"title":"The Hobbit","author":"J.R.R. Tolkien"}
-]`;
-</script>
+  ]`;
 
+  let books = JSON.parse(jsonString);
+
+  // DOM elements
+    
+  const bookList = document.getElementById("bookList");
+  const viewList = document.getElementById("viewList");
+  const viewAdd = document.getElementById("viewAdd");
+
+    
+  // display   
+  function showBooks() {
+    bookList.innerHTML = "";
+    books.forEach(book => {
+      const li = document.createElement("li");
+      li.textContent = book.title + " by " + book.author;
+      bookList.appendChild(li);
+    });  
+  }
+    
+  // add
+  function addBook(title, author) {
+    books.push({ title, author });
+    showBooks();
+  }
+
+  // Navigation
+  document.getElementById("list").addEventListener("click", () => {
+    viewList.classList.remove("hidden");
+    viewAdd.classList.add("hidden");
+  });
+  
+  document.getElementById("add").addEventListener("click", () => {
+    viewList.classList.add("hidden");
+    viewAdd.classList.remove("hidden");
+  });
+
+
+  // Form submit
+  document.getElementById("bookForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const title = document.getElementById("title").value.trim();
+    const author = document.getElementById("author").value.trim();
+
+    // allow empty inputs (removed restriction)
+    addBook(title, author);
+    this.reset();
+    
+    viewList.classList.remove("hidden");
+    viewAdd.classList.add("hidden");
+  });
+
+  // display
+  showBooks();
+  </script>
 </body>
 </html>
